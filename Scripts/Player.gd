@@ -1,15 +1,25 @@
 extends KinematicBody2D
 
 export(int) var Speed = 400
+
 export(PackedScene) var MissileScene
 export(float) var MissileInterval = 0.3
+export(float) var MissileDamage = 1.0
+
+export(PackedScene) var PoisonScene
+export(float) var PoisonInterval = 5.0
+export(float) var PoisonDamage = MissileDamage * 1.5
+
 export(NodePath) var Barrel
 
 export(int) var RespawnInterval = 1
 var respawnTimer
 
 var moveDirection
+
 var firingTimer
+var firingTimerPoison
+
 var fireFrom
 
 var mousePosition
@@ -18,6 +28,7 @@ var aimPosition
 var canFire = true
 
 var missile
+var poison
 
 var playerSpawner
 
@@ -32,6 +43,7 @@ func _ready():
 	moveDirection = Vector2(0, 0)
 	
 	firingTimer = Global.oneShotTimer(MissileInterval, self, self, "onFiringTimerStopped")
+	firingTimerPoison = Global.oneShotTimer(PoisonInterval, self, self, "onFiringTimerStopped")
 	
 	fireFrom = $player_anim/waist/weapon/fireFrom
 	
@@ -109,8 +121,9 @@ func _physics_process(delta):
 		
 		# Fire weapon
 		if Input.is_action_pressed("fire"):
-			
-			firePressed()
+			firePressed(0)
+		if Input.is_action_pressed("second_fire"):
+			firePressed(1)
 		
 		
 		var collision = move_and_collide(moveDirection * Speed * delta)
@@ -126,14 +139,18 @@ func _physics_process(delta):
 		$player_anim/Anim_Walk.play("walk")
 
 
-func firePressed():
+func firePressed(weaponIndex):
 	
 	if canFire:
-	
-		fireMissile()
-		
-		# Start the firing timer
-		firingTimer.start()
+		if weaponIndex == 0:
+			fireMissile()
+			
+			# Start the firing timer
+			firingTimer.start()
+			
+		if weaponIndex == 1:
+			firePoison()
+			firingTimerPoison.start()
 	
 		# Turn off the ability to fire until the firing interval time runs out
 		canFire = false
@@ -160,6 +177,26 @@ func fireMissile():
 	
 	get_tree().get_root().add_child(missile)
 
+func firePoison():
+	
+	# slight variation of volume so it doesn't get too rhythmic
+	
+	randomize()
+	var randomVolume = rand_range(-2, 0)
+	
+	fireSound.set_volume_db(randomVolume)
+	
+	fireSound.play()
+	
+	poison = PoisonScene.instance()
+	
+	poison.position = fireFrom.get_global_position()
+	
+	poison.rotation = $aim.get_rotation()
+	
+	poison.add_to_group("missiles")
+	
+	get_tree().get_root().add_child(poison)
 
 func onFiringTimerStopped():
 	
