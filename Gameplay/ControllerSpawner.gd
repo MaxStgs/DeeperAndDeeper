@@ -17,17 +17,19 @@ export(Array, int) var CountEnemiesForNextWave
 
 var RemainingEnemies = []
 
+var FullCountEnemies = 0
+
+export(String, FILE, "*.tscn") var NextLevelLoader
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i in range(len(CountEnemies)):
 		RemainingEnemies.append(0)
-	pass # Replace with function body.
-
-
-func _on_PlayButton_pressed():
-	startGame()
-	pass
+		FullCountEnemies += CountEnemies[i]
 	
+	spawnTimer = Global.oneShotTimer(Interval, self, self, "onSpawnTimer")
+	spawnTimer.start()
+	pass # Replace with function body.
 	
 func startGame():
 	spawnEnemy()
@@ -51,7 +53,6 @@ func spawnEnemies():
 		if isShouldRunNextWave:
 			currentWave += 1
 			currentWaveState = 1
-			print("Run new wave!!")
 	
 	for i in min(len(Spawners), currentWaveState):
 		if CountEnemies[currentWave] <= 0:
@@ -82,10 +83,18 @@ func spawnEnemies():
 	pass
 
 func killed(enemyLevel):
+	FullCountEnemies -= 1
+	if isAllEnemiesKilled():
+		get_tree().change_scene(NextLevelLoader)
+		
 	var isLastEnemyLevel = enemyLevel == len(Enemies) - 1
 	if isLastEnemyLevel:
 		return
 	
 	RemainingEnemies[enemyLevel + 1] += 1
 	onSpawnTimer()
+		
 	pass
+
+func isAllEnemiesKilled():
+	return FullCountEnemies == 0

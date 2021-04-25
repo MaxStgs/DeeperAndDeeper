@@ -15,11 +15,10 @@ var playerCollision
 var playerSprite
 var playerWeapon
 
-func _on_Play_Button_pressed():
-	
+func _ready():
 	PlayerLives = PlayerStartingLives
-	
 	startGame()
+	pass
 
 
 func startGame():

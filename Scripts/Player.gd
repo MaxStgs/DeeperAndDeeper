@@ -173,6 +173,7 @@ func fireMissile():
 	missile.position = fireFrom.get_global_position()
 	
 	missile.rotation = $aim.get_rotation()
+	missile.damage = MissileDamage
 	
 	missile.add_to_group("missiles")
 	
@@ -194,6 +195,7 @@ func firePoison():
 	poison.position = fireFrom.get_global_position()
 	
 	poison.rotation = $aim.get_rotation()
+	poison.damage = PoisonDamage
 	
 	poison.add_to_group("missiles")
 	

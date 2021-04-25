@@ -13,6 +13,10 @@ var direction
 
 var enemyLevel = 1
 
+export(float) var MaxHealth = 10
+
+var health = MaxHealth
+
 var visibilityNotifier
 
 var speedIndex
@@ -29,6 +33,7 @@ func _ready():
 	
 	speedIndex = enemyLevel - 1
 	
+	
 	Speed = levelSpeeds[speedIndex]
 
 
@@ -41,7 +46,11 @@ func _physics_process(delta):
 		angle = Vector2(cos(direction), sin(direction))
 
 
-func missileHit():
+func missileHit(damage):
+	health -= damage
+	print(health)
+	if health > 0:
+		return
 	
 	# Not sure why, but this line didn't work to disable collision
 #	$CollisionPolygon2D.disabled = true
