@@ -144,6 +144,7 @@ func spawnEnemies(level, nodeForPosition, direction):
 			enemy.apply_scale(Vector2(-1,1))
 		
 		enemy.angle = Vector2( cos(randomAngle), sin(randomAngle) )
+		enemy.direction = randomAngle
 		
 		enemy.spawnedBy = self
 		

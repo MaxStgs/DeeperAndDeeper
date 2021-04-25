@@ -15,7 +15,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Slime Shooter"
-run/main_scene="res://Gameplay/Playfield.tscn"
+run/main_scene="res://Levels/Playfield.tscn"
 config/icon="res://icon.png"
 
 [autoload]

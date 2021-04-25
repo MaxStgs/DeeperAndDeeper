@@ -9,6 +9,7 @@ var maxEnemyLevel = 3
 var Speed
 
 var angle
+var direction
 
 var enemyLevel = 1
 
@@ -34,7 +35,10 @@ func _ready():
 func _physics_process(delta):
 
 	# warning-ignore:return_value_discarded
-	move_and_collide(angle * Speed * delta)
+	var collision = move_and_collide(angle * Speed * delta)
+	if collision:
+		direction += 90.0
+		angle = Vector2(cos(direction), sin(direction))
 
 
 func missileHit():
@@ -57,9 +61,7 @@ func missileHit():
 	
 	Global.hudScore.set_text(str(Global.score))
 	
-	if enemyLevel < spawnedBy.maxEnemyLevel:
-	
-		spawnedBy.spawnEnemies(enemyLevel + 1, self, "any")
+	spawnedBy.killed(enemyLevel)
 		
 	# wait a second for the sound to play then destroy self
 	var t = Timer.new()
@@ -73,5 +75,8 @@ func missileHit():
 
 
 func onScreenExit():
-	
 	self.queue_free()
+
+
+func _on_Area2D_area_entered(area: Area2D) -> void:
+	pass # Replace with function body.
