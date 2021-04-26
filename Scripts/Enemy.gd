@@ -1,12 +1,11 @@
 extends KinematicBody2D
 
 export(Array) var levelSpeeds = [150, 250, 350]
+export(float) var Speed = 150.0
 
 var spawnedBy
 
 var maxEnemyLevel = 3
-
-var Speed
 
 var angle
 var direction
@@ -36,8 +35,6 @@ func _ready():
 	visibilityNotifier.connect("screen_exited", self, "onScreenExit")
 	
 	speedIndex = enemyLevel - 1
-	
-	Speed = levelSpeeds[speedIndex]
 	
 	if MissileScene:
 		firingTimer = Global.oneShotTimer(IntervalBetweenAttacks, self, self, "onFiringTimerStopped")
@@ -112,8 +109,8 @@ func shotPlayer():
 	
 	missile.position = self.position
 		
-	missile.rotation = self.position.direction_to(player.position).angle()
-	# missile.rotation = (self.position - player.position).angle()
+	# missile.rotation = self.position.direction_to(player.position).angle()
+	missile.rotation = (self.position - player.position).angle()
 	missile.damage = MissileDamage
 	
 	missile.add_to_group("missiles")

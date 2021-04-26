@@ -131,8 +131,8 @@ func _physics_process(delta):
 		# Fire weapon
 		if Input.is_action_pressed("fire"):
 			firePressed(0)
-		if Input.is_action_pressed("second_fire"):
-			firePressed(1)
+		# if Input.is_action_pressed("second_fire"):
+			# firePressed(1)
 		
 		
 		var collision = move_and_collide(moveDirection * Speed * delta)
@@ -224,7 +224,7 @@ func hitByEnemy(enemy):
 	
 	canMove = false
 	
-	enemy.queue_free()
+	enemy.missileHit(1000)
 	
 	$explosion.set_emitting(true)
 	$player_anim.visible = false
@@ -273,6 +273,7 @@ func hitByMissile(enemy):
 		respawnTimer = Global.oneShotTimer(RespawnInterval, self, self, "respawnPlayer")
 	
 		respawnTimer.start()
+		pass
 	
 	else:
 		get_tree().change_scene(GameOverLevel)

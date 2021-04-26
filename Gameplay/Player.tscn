@@ -20,8 +20,7 @@ collision_layer = 9
 collision_mask = 3
 script = ExtResource( 1 )
 MissileScene = ExtResource( 2 )
-MissileInterval = 3.0
-MissileDamage = 10.0
+MissileInterval = 1.0
 PoisonScene = ExtResource( 6 )
 GameOverLevel = "res://Levels/GameOver.tscn"
 

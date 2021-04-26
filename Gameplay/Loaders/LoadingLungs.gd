@@ -1,6 +1,6 @@
 extends Node2D
 
-export(float) var Interval = 5.0
+export(float) var Interval = 2.5
 export(String, FILE, "*.tscn") var NextLevel
 var spawnTimer
 
