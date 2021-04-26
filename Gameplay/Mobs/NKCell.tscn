@@ -199,6 +199,7 @@ position = Vector2( -1.37558, -63.8219 )
 collision_layer = 2
 collision_mask = 0
 script = ExtResource( 1 )
+MaxHealth = 5.0
 
 [node name="character" type="Node2D" parent="."]
 

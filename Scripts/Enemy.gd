@@ -25,14 +25,7 @@ export(float) var MissileDamage = 1.0
 var speedIndex
 
 func _ready():
-	
-	visibilityNotifier = VisibilityNotifier2D.new()
-	# increase the size of the visibility notifier size otherwise
-	# the asteroid will disappear before it's fully off screen
-	visibilityNotifier.set_rect(Rect2(-100, -100, 200, 200))
-	add_child(visibilityNotifier)
-	visibilityNotifier.connect("screen_exited", self, "onScreenExit")
-	
+	preload("res://Assets/Particles/explosion_green.tscn")
 	speedIndex = enemyLevel - 1
 	
 	if MissileScene:
@@ -40,7 +33,6 @@ func _ready():
 		firingTimer.start()
 		
 	health = MaxHealth
-	
 	pass
 
 

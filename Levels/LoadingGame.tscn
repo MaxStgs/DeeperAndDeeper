@@ -1,10 +1,44 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Backgrounds/GameLoading.png" type="Texture" id=1]
 [ext_resource path="res://Gameplay/Loaders/LoadingLungs.gd" type="Script" id=2]
+[ext_resource path="res://Assets/19440.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Assets/Sprites/Other/button_play.png" type="Texture" id=4]
+[ext_resource path="res://Levels/AnimationPlayer.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "FadeIn"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.952941, 0, 0, 0 ), Color( 0.886275, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Label2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.952941, 0, 0, 0 ), Color( 0.933333, 0, 0, 1 ) ]
+}
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
@@ -36,5 +70,42 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0.952941, 0, 0, 0 )
+margin_left = 47.7725
+margin_top = 865.748
+margin_right = 875.773
+margin_bottom = 1057.75
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.678431, 0.0784314, 0, 1 )
+text = "Movement: W - up, S - down, D - right, A - left.
+Передвижение: W - вверх, S  - вниз, D - вправо, A - влево.
+
+Fire: Left Mouse Button
+Огонь: Левая клавиша мыши"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+modulate = Color( 0.952941, 0, 0, 0 )
+margin_left = 1188.03
+margin_top = 883.954
+margin_right = 2016.03
+margin_bottom = 1075.95
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.678431, 0.0784314, 0, 1 )
+text = "Press Red Button for continue...
+
+
+Нажми красную кнопку для продолжения..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeIn = SubResource( 3 )
+script = ExtResource( 5 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

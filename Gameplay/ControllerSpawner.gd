@@ -19,10 +19,18 @@ var RemainingEnemies = []
 
 var FullCountEnemies = 0
 
+var timerNextLevel
+
 export(String, FILE, "*.tscn") var NextLevelLoader
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	preload("res://Assets/Particles/explosion_green.tscn")
+	preload("res://Assets/Particles/explosion_green.tscn")
+	for i in range(len(Enemies)):
+		print("Load: " + Enemies[i].resource_path)
+		load(Enemies[i].resource_path)
+	
 	for i in range(len(CountEnemies)):
 		RemainingEnemies.append(0)
 		FullCountEnemies += CountEnemies[i]
@@ -57,35 +65,43 @@ func spawnEnemies():
 	for i in min(len(Spawners), currentWaveState):
 		if CountEnemies[currentWave] <= 0:
 			return
-			
-		var enemy = Enemies[currentWave].instance()
-		enemy.enemyLevel = currentWave
-		var spawner = get_node(Spawners[i])
-		var spawnPosition = spawner.position
-		enemy.position = spawnPosition
-		enemy.add_to_group("enemies")
 		
-		randomize()
-		var randomAngle = rand_range(0.0, 360.0)
+		spawnSomething(i)
 		
-		if randomAngle >= 90 && randomAngle <= 270:
-			enemy.apply_scale(Vector2(-1,1))
-			
-		enemy.angle = Vector2(cos(randomAngle), sin(randomAngle))
-		enemy.direction = randomAngle
-		enemy.spawnedBy = self
-		
-		CountEnemies[currentWave] -= 1
-		
-		get_parent().add_child(enemy)
 
 	currentWaveState = currentWaveState * 2
 	pass
+	
+func spawnSomething(i):
+	var enemy = Enemies[currentWave].instance()
+	enemy.enemyLevel = currentWave
+	var spawner = get_node(Spawners[i])
+	var spawnPosition = spawner.position
+	enemy.position = spawnPosition
+	enemy.add_to_group("enemies")
+	
+	randomize()
+	var randomAngle = rand_range(0.0, 360.0)
+	
+	if randomAngle >= 90 && randomAngle <= 270:
+		enemy.apply_scale(Vector2(-1,1))
+		
+	enemy.angle = Vector2(cos(randomAngle), sin(randomAngle))
+	enemy.direction = randomAngle
+	enemy.spawnedBy = self
+	
+	CountEnemies[currentWave] -= 1
+	addChild(enemy)
+	
+func addChild(enemy):
+	get_parent().add_child(enemy)
 
 func killed(enemyLevel):
 	FullCountEnemies -= 1
 	if isAllEnemiesKilled():
-		get_tree().change_scene(NextLevelLoader)
+		timerNextLevel = Global.oneShotTimer(1.0, self, self, "openNextLevel")
+		timerNextLevel.start()
+		return
 		
 	var isLastEnemyLevel = enemyLevel == len(Enemies) - 1
 	if isLastEnemyLevel:
@@ -98,3 +114,7 @@ func killed(enemyLevel):
 
 func isAllEnemiesKilled():
 	return FullCountEnemies == 0
+
+func openNextLevel():
+	get_tree().change_scene(NextLevelLoader)
+	pass

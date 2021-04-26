@@ -8,7 +8,7 @@ var hudScore
 var hudLives
 
 func _ready():
-	
+	preload("res://Assets/Particles/explosion_green.tscn")
 	root = get_tree().get_root()
 
 
