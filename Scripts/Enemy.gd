@@ -13,8 +13,7 @@ var direction
 var enemyLevel = 1
 
 export(float) var MaxHealth = 10
-
-var health = MaxHealth
+var health
 
 var visibilityNotifier
 
@@ -39,6 +38,8 @@ func _ready():
 	if MissileScene:
 		firingTimer = Global.oneShotTimer(IntervalBetweenAttacks, self, self, "onFiringTimerStopped")
 		firingTimer.start()
+		
+	health = MaxHealth
 	
 	pass
 
@@ -54,7 +55,15 @@ func _physics_process(delta):
 
 func missileHit(damage):
 	health -= damage
+	
 	print(health)
+	
+	randomize()
+	var randomVolume = rand_range(-2, 0)
+	$explosion.set_emitting(true)
+	$hitSound.set_volume_db(randomVolume)
+	$hitSound.play()
+	
 	if health > 0:
 		return
 	
@@ -65,12 +74,6 @@ func missileHit(damage):
 	$character.set_visible(false)
 	
 	# slightly vary the volume of the sound played when missile hits enemy so it doens't do your head in
-	randomize()
-	var randomVolume = rand_range(-2, 0)
-	
-	$explosion.set_emitting(true)
-	$hitSound.set_volume_db(randomVolume)
-	$hitSound.play()
 	
 	Global.score += enemyLevel * 10
 	
