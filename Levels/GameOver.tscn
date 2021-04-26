@@ -7,15 +7,15 @@
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 300
 outline_color = Color( 0.941176, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.572549, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 20
 outline_color = Color( 0.92549, 0, 0, 1 )
 font_data = ExtResource( 3 )
@@ -47,19 +47,19 @@ __meta__ = {
 }
 
 [node name="button_play" type="Sprite" parent="Button"]
-visible = false
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="Label" type="Label" parent="Button"]
+visible = false
 anchor_right = 0.996
 anchor_bottom = 0.882
 margin_left = 40.0
 margin_top = 2.0
 margin_right = 0.0279846
 margin_bottom = 60.09
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.647059, 0.168627, 0.168627, 1 )
 text = "X"
 __meta__ = {
@@ -72,12 +72,12 @@ margin_left = 1463.49
 margin_top = 890.99
 margin_right = 1868.49
 margin_bottom = 1010.99
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Exit - Выход"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="Button" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
