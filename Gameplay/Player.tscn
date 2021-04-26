@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Gameplay/Missile.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Assets/sounds/tookHit.wav" type="AudioStream" id=5]
 [ext_resource path="res://Gameplay/Poison.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Particles/explosion.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/Sprites/Character.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Sprites/Character_fire.png" type="Texture" id=9]
 [ext_resource path="res://Assets/playershadow.png" type="Texture" id=10]
 
 [sub_resource type="CapsuleShape2D" id=1]
@@ -14,17 +16,25 @@ radius = 24.4805
 height = 77.556
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 9
 collision_mask = 3
 script = ExtResource( 1 )
 MissileScene = ExtResource( 2 )
 MissileInterval = 3.0
+MissileDamage = 10.0
 PoisonScene = ExtResource( 6 )
+GameOverLevel = "res://Levels/GameOver.tscn"
 
 [node name="player_anim" parent="." instance=ExtResource( 3 )]
 scale = Vector2( 1, 1 )
 
 [node name="r_arm" parent="player_anim" index="0"]
+visible = false
+position = Vector2( -19.3847, -36.4685 )
 rotation = 2.96943
+
+[node name="waist" parent="player_anim" index="1"]
+visible = false
 
 [node name="l_arm" parent="player_anim/waist/torso" index="1"]
 rotation = 0.165786
@@ -44,7 +54,15 @@ position = Vector2( 3.28562, -0.670525 )
 [node name="r_leg" parent="player_anim/waist" index="2"]
 position = Vector2( -8.30589, 0.128899 )
 
+[node name="Character" type="Sprite" parent="player_anim"]
+texture = ExtResource( 8 )
+
+[node name="Character_fire" type="Sprite" parent="player_anim"]
+visible = false
+texture = ExtResource( 9 )
+
 [node name="playershadow" type="Sprite" parent="player_anim"]
+visible = false
 position = Vector2( 1.42326, 35.5609 )
 texture = ExtResource( 10 )
 

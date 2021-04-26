@@ -8,6 +8,6 @@ script = ExtResource( 2 )
 NextLevel = "res://Levels/Stomach.tscn"
 
 [node name="moonground" type="Sprite" parent="."]
-position = Vector2( 962.826, 539.835 )
-scale = Vector2( 0.549431, 0.43625 )
+position = Vector2( 962.826, 544.325 )
+scale = Vector2( 1.00309, 1.00995 )
 texture = ExtResource( 1 )

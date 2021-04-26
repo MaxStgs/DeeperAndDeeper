@@ -19,6 +19,11 @@ var health = MaxHealth
 
 var visibilityNotifier
 
+var firingTimer
+var IntervalBetweenAttacks = 1.0
+export(PackedScene) var MissileScene
+export(float) var MissileDamage = 1.0
+
 var speedIndex
 
 func _ready():
@@ -28,13 +33,17 @@ func _ready():
 	# the asteroid will disappear before it's fully off screen
 	visibilityNotifier.set_rect(Rect2(-100, -100, 200, 200))
 	add_child(visibilityNotifier)
-	
 	visibilityNotifier.connect("screen_exited", self, "onScreenExit")
 	
 	speedIndex = enemyLevel - 1
 	
-	
 	Speed = levelSpeeds[speedIndex]
+	
+	if MissileScene:
+		firingTimer = Global.oneShotTimer(IntervalBetweenAttacks, self, self, "onFiringTimerStopped")
+		firingTimer.start()
+	
+	pass
 
 
 func _physics_process(delta):
@@ -86,6 +95,32 @@ func missileHit(damage):
 func onScreenExit():
 	self.queue_free()
 
+func onFiringTimerStopped():
+	shotPlayer()
+	pass
+	
+func shotPlayer():
+	var player = get_node("../PlayerSpawner/Player")
+	if !player:
+		firingTimer.start()
+		return
+		
+	randomize()
+	var randomVolume = rand_range(-2, 0)
+	
+	var missile = MissileScene.instance()
+	
+	missile.position = self.position
+		
+	missile.rotation = self.position.direction_to(player.position).angle()
+	# missile.rotation = (self.position - player.position).angle()
+	missile.damage = MissileDamage
+	
+	missile.add_to_group("missiles")
+	
+	get_tree().get_root().add_child(missile)
+	firingTimer.start()
+	pass
 
 func _on_Area2D_area_entered(area: Area2D) -> void:
 	pass # Replace with function body.

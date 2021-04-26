@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=1]
-[ext_resource path="res://Assets/slimule2.png" type="Texture" id=2]
-[ext_resource path="res://Assets/sounds/blip.wav" type="AudioStream" id=3]
-[ext_resource path="res://Assets/Particles/explosion_blue.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Sprites/Basefil.png" type="Texture" id=2]
+[ext_resource path="res://Assets/sounds/Hit.mp3" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Particles/explosion_green.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "walk"
@@ -153,49 +153,23 @@ tracks/11/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.214, 0.847 ), Vector2( 1, 1 ) ]
 }
 
-[node name="Enemy" type="KinematicBody2D"]
-position = Vector2( 0.72049, -31.7011 )
+[sub_resource type="CircleShape2D" id=2]
+radius = 140.394
+
+[node name="Enemy2" type="KinematicBody2D"]
+position = Vector2( -1.37558, -63.8219 )
 collision_layer = 2
 collision_mask = 0
 script = ExtResource( 1 )
+MaxHealth = 1.0
 
 [node name="character" type="Node2D" parent="."]
 
-[node name="Polygon2D" type="Polygon2D" parent="character"]
-position = Vector2( -74.2288, -53.2695 )
+[node name="Sprite" type="Sprite" parent="character"]
 texture = ExtResource( 2 )
-skeleton = NodePath("../Skeleton2D")
-polygon = PoolVector2Array( 71.1201, 6.20783, 55.4656, 8.63698, 45.749, 15.3846, 41.4305, 28.3401, 38.1916, 41.5655, 32.7935, 48.3131, 23.6167, 53.9811, 23.8866, 59.919, 28.7449, 64.2375, 35.2227, 65.5871, 31.7139, 71.7949, 22.807, 76.3833, 13.0904, 78.5425, 7.96221, 82.5911, 8.50202, 91.2281, 27.3954, 98.5155, 53.0364, 101.484, 79.2173, 102.024, 104.858, 100.405, 124.831, 97.166, 143.455, 90.4184, 144.265, 79.892, 133.468, 71.525, 123.482, 66.9366, 115.655, 53.1714, 116.734, 50.2024, 118.084, 44.2645, 111.336, 37.5169, 104.858, 31.309, 102.969, 20.2429, 93.5223, 9.17679, 79.7571, 5.93792 )
-uv = PoolVector2Array( 71.1201, 6.20783, 55.4656, 8.63698, 45.749, 15.3846, 41.4305, 28.3401, 38.1916, 41.5655, 32.7935, 48.3131, 23.6167, 53.9811, 23.8866, 59.919, 28.7449, 64.2375, 35.2227, 65.5871, 31.7139, 71.7949, 22.807, 76.3833, 13.0904, 78.5425, 7.96221, 82.5911, 8.50202, 91.2281, 27.3954, 98.5155, 53.0364, 101.484, 79.2173, 102.024, 104.858, 100.405, 124.831, 97.166, 143.455, 90.4184, 144.265, 79.892, 133.468, 71.525, 123.482, 66.9366, 115.655, 53.1714, 116.734, 50.2024, 118.084, 44.2645, 111.336, 37.5169, 104.858, 31.309, 102.969, 20.2429, 93.5223, 9.17679, 79.7571, 5.93792 )
-bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("Bone2D/Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 0, 0, 0, 0, 0 ), NodePath("Bone2D/Bone2D/Bone2D"), PoolRealArray( 0, 0, 0, 0.5, 1, 0.5, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 0, 0 ), NodePath("Bone2D/Bone2D/Bone2D/Bone2D"), PoolRealArray( 0.5, 0.5, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5 ) ]
-
-[node name="Skeleton2D" type="Skeleton2D" parent="character"]
-
-[node name="Bone2D" type="Bone2D" parent="character/Skeleton2D"]
-position = Vector2( 0.208328, 30.6243 )
-scale = Vector2( 1.09281, 0.933648 )
-rest = Transform2D( 1, 0, 0, 1, 0.208328, 30.6243 )
-
-[node name="Bone2D" type="Bone2D" parent="character/Skeleton2D/Bone2D"]
-position = Vector2( -0.416656, -14.1664 )
-rotation = 0.0436388
-scale = Vector2( 1, 0.950995 )
-rest = Transform2D( 1, 0, 0, 1, -0.416656, -14.1664 )
-
-[node name="Bone2D" type="Bone2D" parent="character/Skeleton2D/Bone2D/Bone2D"]
-position = Vector2( 0.208328, -22.4995 )
-rotation = -0.0621888
-scale = Vector2( 1.02949, 1.04597 )
-rest = Transform2D( 1, 0, 0, 1, 0.208328, -22.4995 )
-
-[node name="Bone2D" type="Bone2D" parent="character/Skeleton2D/Bone2D/Bone2D/Bone2D"]
-position = Vector2( 0.208344, -19.9996 )
-rotation = -1.48898
-scale = Vector2( 1.06548, 0.892016 )
-rest = Transform2D( -0.0214246, -0.99977, 0.99977, -0.0214246, 0.208344, -19.9996 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 18.7312, -40.7425, -18.1512, -39.6987, -34.5047, -4.90399, -48.4225, 27.1071, 2.02975, 27.4551, 54.5697, 24.6715, 28.8216, -15.6903 )
+polygon = PoolVector2Array( -11.2734, -116.095, -50.4735, -84.8405, -91.2629, -62.062, -126.225, -14.9159, -101.328, 78.8466, -43.0573, 116.987, 93.0837, 96.3277, 102.619, 51.8303, 110.565, -11.2078, 107.386, -53.5863, 97.8513, -84.3107 )
 
 [node name="anim" type="AnimationPlayer" parent="."]
 autoplay = "walk"
@@ -205,4 +179,14 @@ anims/walk = SubResource( 1 )
 stream = ExtResource( 3 )
 
 [node name="explosion" parent="." instance=ExtResource( 4 )]
-scale = Vector2( 2, 2 )
+scale = Vector2( 3, 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -1.46671, 10.169 )
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+
+[editable path="explosion"]

@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sprites/Macrofag.png" type="Texture" id=2]
+[ext_resource path="res://Assets/sounds/Hit.mp3" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Particles/explosion_green.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "walk"
+length = 1.5
+loop = true
+step = 0.05
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 105.643
+
+[node name="Enemy" type="KinematicBody2D"]
+position = Vector2( -1.37558, -63.8219 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 1 )
+MaxHealth = 1.0
+
+[node name="character" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="character"]
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -14.8511, -7.20385 )
+scale = Vector2( 1.18598, 1.27472 )
+polygon = PoolVector2Array( 18.6512, -76.6615, -2.38206, -15.508, -32.8052, -8.16959, -61.0944, 1.20735, -72.9938, 55.43, -27.9608, 61.7946, -6.51361, 43.1993, 21.2804, 32.3664, 52.4547, 22.2324, 76.1735, 24.8742, 41.1465, -70.74 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "walk"
+anims/walk = SubResource( 1 )
+
+[node name="hitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="explosion" parent="." instance=ExtResource( 4 )]
+scale = Vector2( 3, 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0.421046, -9.65234 )
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+
+[editable path="explosion"]

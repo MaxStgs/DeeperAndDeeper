@@ -8,6 +8,6 @@ script = ExtResource( 2 )
 NextLevel = "res://Levels/Heart.tscn"
 
 [node name="moonground" type="Sprite" parent="."]
-position = Vector2( 962.826, 539.835 )
-scale = Vector2( 0.549431, 0.43625 )
+position = Vector2( 960.938, 544.555 )
+scale = Vector2( 1.00367, 1.00432 )
 texture = ExtResource( 1 )

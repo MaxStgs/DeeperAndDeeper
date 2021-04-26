@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sprites/TKiller.png" type="Texture" id=2]
+[ext_resource path="res://Assets/sounds/Hit.mp3" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Particles/explosion_green.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "walk"
+length = 1.5
+loop = true
+step = 0.05
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 72.6399
+
+[node name="Enemy" type="KinematicBody2D"]
+position = Vector2( -1.37558, -63.8219 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 1 )
+MaxHealth = 2.0
+
+[node name="character" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="character"]
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -0.507202, -84.4668, -36.4809, -75.4734, -49.7343, -39.973, -61.0944, 1.20735, -76.7146, 58.0079, -27.9608, 61.7946, 20.3197, 61.3213, 52.5067, 58.9546, 91.3203, 40.4944, 76.1735, 24.8742, 41.1465, -70.74 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "walk"
+anims/walk = SubResource( 1 )
+
+[node name="hitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="explosion" parent="." instance=ExtResource( 4 )]
+scale = Vector2( 3, 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 6.97247, -13.5436 )
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+
+[editable path="explosion"]

@@ -20,6 +20,9 @@ var moveDirection
 var firingTimer
 var firingTimerPoison
 
+var firingAnimTimer
+export(float) var firingAnimTime = 0.2
+
 var fireFrom
 
 var mousePosition
@@ -37,6 +40,8 @@ var canMove = false
 var fireSound
 var tookHitSound
 
+export(String, FILE, "*.tscn") var GameOverLevel
+
 
 func _ready():
 	
@@ -44,6 +49,7 @@ func _ready():
 	
 	firingTimer = Global.oneShotTimer(MissileInterval, self, self, "onFiringTimerStopped")
 	firingTimerPoison = Global.oneShotTimer(PoisonInterval, self, self, "onFiringTimerStopped")
+	firingAnimTimer = Global.oneShotTimer(firingAnimTime, self, self, "onFiringAnimFinished")
 	
 	fireFrom = $player_anim/waist/weapon/fireFrom
 	
@@ -51,6 +57,9 @@ func _ready():
 	
 	fireSound = $fireSound
 	tookHitSound = $tookHitSound
+	
+	PoisonDamage = MissileDamage * 1.5
+	pass
 
 
 func _physics_process(delta):
@@ -155,6 +164,8 @@ func firePressed(weaponIndex):
 	
 		# Turn off the ability to fire until the firing interval time runs out
 		canFire = false
+		onFiringAnimStarted()
+		firingAnimTimer.start()
 
 
 func fireMissile():
@@ -233,11 +244,44 @@ func hitByEnemy(enemy):
 		respawnTimer.start()
 	
 	else:
-	
+		get_tree().change_scene(GameOverLevel)
+		
 		for missile in get_tree().get_nodes_in_group('missiles'):
 			missile.queue_free()
 		
 		playerSpawner.playerDied()
+	pass
+	
+func hitByMissile(enemy):
+	tookHitSound.play()
+	
+	canMove = false
+	
+	$explosion.set_emitting(true)
+	$player_anim.visible = false
+	
+	var playerCollision = get_node("CollisionShape2D")
+	
+	playerCollision.disabled = true
+	
+	playerSpawner.PlayerLives -= 1
+	
+	Global.hudLives.set_text(str(playerSpawner.PlayerLives))
+	
+	if playerSpawner.PlayerLives > 0:
+	
+		respawnTimer = Global.oneShotTimer(RespawnInterval, self, self, "respawnPlayer")
+	
+		respawnTimer.start()
+	
+	else:
+		get_tree().change_scene(GameOverLevel)
+		
+		for missile in get_tree().get_nodes_in_group('missiles'):
+			missile.queue_free()
+		
+		playerSpawner.playerDied()
+	pass
 
 
 func respawnPlayer():
@@ -247,3 +291,13 @@ func respawnPlayer():
 	canMove = true
 	
 	self.queue_free()
+	
+func onFiringAnimStarted():
+	$player_anim/Character.visible = false
+	$player_anim/Character_fire.visible = true
+	pass
+
+func onFiringAnimFinished():
+	$player_anim/Character.visible = true
+	$player_anim/Character_fire.visible = false
+	pass

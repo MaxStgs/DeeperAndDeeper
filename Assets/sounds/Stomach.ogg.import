@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Stomach.ogg-23511a74899ca19cd77d2e33faf9ccad.oggstr"
+
+[deps]
+
+source_file="res://Assets/sounds/Stomach.ogg"
+dest_files=[ "res://.import/Stomach.ogg-23511a74899ca19cd77d2e33faf9ccad.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
