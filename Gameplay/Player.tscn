@@ -12,7 +12,7 @@
 [ext_resource path="res://Assets/playershadow.png" type="Texture" id=10]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 24.4805
+radius = 74.0018
 height = 77.556
 
 [node name="Player" type="KinematicBody2D"]

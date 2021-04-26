@@ -97,8 +97,13 @@ func onFiringTimerStopped():
 	pass
 	
 func shotPlayer():
-	var player = get_node("../PlayerSpawner/Player")
-	if !player:
+	return
+	var playerSpawner = get_node("../PlayerSpawner")
+	if !playerSpawner:
+		firingTimer.start()
+		return
+		
+	if !playerSpawner.player:
 		firingTimer.start()
 		return
 		
@@ -107,10 +112,16 @@ func shotPlayer():
 	
 	var missile = MissileScene.instance()
 	
+	print(playerSpawner.player.position)
+	# missile.position = playerSpawner.player.get_node("CollisionShape2D").position
 	missile.position = self.position
-		
+	# missile.position = Vector2(0.0, 0.0)
+	
+	# var target = playerSpawner.player.get_node("CollisionShape2D").position
+	var target = get_viewport().size / 2
+	
 	# missile.rotation = self.position.direction_to(player.position).angle()
-	missile.rotation = (self.position - player.position).angle()
+	missile.rotation = self.position.angle_to_point(target)
 	missile.damage = MissileDamage
 	
 	missile.add_to_group("missiles")
